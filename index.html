@@ -63,6 +63,13 @@ h2{color:var(--cream);font-size:24px;margin-bottom:6px}
 .item span{font-weight:600;font-size:15px}
 .book{background:var(--m);color:#fff;border:0;padding:10px 16px;border-radius:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:.25s;font-size:14px}
 .book:hover{background:var(--m2);box-shadow:0 0 16px rgba(179,58,76,.6)}
+.custom{margin-top:22px;background:var(--card);border:1px dashed var(--m2);border-radius:18px;padding:18px}
+.custom b{color:var(--cream);font-size:16px;display:block;margin-bottom:6px}
+[data-theme="light"] .custom b{color:var(--m)}
+.custom p{color:var(--mut);font-size:13.5px;margin-bottom:12px;line-height:1.5}
+.custom textarea{width:100%;background:var(--card2);color:var(--t);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:14.5px;resize:vertical;margin-bottom:12px}
+.custom textarea:focus{outline:none;border-color:var(--m2)}
+.book.wide{width:100%;padding:13px}
 .panel{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;justify-content:flex-end}
 .panel.on{display:flex}
 .sheet{width:min(440px,100%);height:100%;background:var(--bg);padding:22px 20px 40px;overflow-y:auto;animation:slide .4s ease both;border-left:3px solid var(--m)}
@@ -112,6 +119,12 @@ h2{color:var(--cream);font-size:24px;margin-bottom:6px}
     <h2 id="dTitle"></h2>
     <p class="sub" id="dDesc"></p>
     <div class="list" id="list"></div>
+    <div class="custom">
+      <b>Jasa yang kamu cari tidak ada di daftar?</b>
+      <p>Tulis sendiri kebutuhanmu di bawah, nanti langsung dikirim ke WhatsApp Adnan.</p>
+      <textarea id="customText" rows="3" placeholder="Contoh: saya butuh foto untuk acara aqiqah di rumah..."></textarea>
+      <button class="book wide" onclick="sendCustom()">Kirim ke WhatsApp</button>
+    </div>
   </section>
 </main>
 
@@ -163,8 +176,14 @@ SERVICES.forEach(function(s,idx){
   b.innerHTML='<span class="ic">'+s.i+'</span><b>'+s.n+'</b><small>'+s.s.length+' layanan</small>';
   b.onclick=function(){openDetail(idx)};$("grid").appendChild(b);
 });
+var currentService="";
+function sendCustom(){
+  var t=$("customText").value.trim();
+  if(!t){$("customText").focus();$("customText").placeholder="Tulis dulu kebutuhanmu ya...";return}
+  window.open(wa("Halo kak, Mau tanya jasa "+currentService+": "+t),"_blank");
+}
 function openDetail(i){
-  var s=SERVICES[i];$("dTitle").textContent=s.n;$("dDesc").textContent=s.d;$("list").innerHTML="";
+  var s=SERVICES[i];currentService=s.n;$("customText").value="";$("dTitle").textContent=s.n;$("dDesc").textContent=s.d;$("list").innerHTML="";
   s.s.forEach(function(x,k){
     var d=document.createElement("div");d.className="item";d.style.animationDelay=(k*60)+"ms";
     var sp=document.createElement("span");sp.textContent=x;
