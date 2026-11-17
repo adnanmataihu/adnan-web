@@ -176,6 +176,15 @@ SERVICES.forEach(function(s,idx){
   b.innerHTML='<span class="ic">'+s.i+'</span><b>'+s.n+'</b><small>'+s.s.length+' layanan</small>';
   b.onclick=function(){openDetail(idx)};$("grid").appendChild(b);
 });
+var PH={
+ "Fotografi":"Contoh: saya butuh fotografer untuk acara aqiqah di rumah, sekitar 2 jam, tanggal ...",
+ "Video Editor":"Contoh: saya punya rekaman acara 30 menit, mau diedit jadi video highlight 3 menit...",
+ "Photo Editor":"Contoh: saya mau 20 foto diedit warnanya dan dihaluskan, ada juga yang perlu ganti background...",
+ "Tools AI & Custom GPT":"Contoh: saya mau dibuatkan asisten AI untuk toko saya yang bisa jawab pertanyaan pelanggan...",
+ "Chatbot Telegram":"Contoh: saya mau bot Telegram untuk terima pesanan dan catat data pelanggan otomatis...",
+ "Website Portofolio":"Contoh: saya mau website untuk usaha kue saya, ada galeri produk dan tombol pesan WhatsApp...",
+ "Bikin Lagu":"Contoh: saya mau dibuatkan lagu untuk ulang tahun pernikahan orang tua, genre pop akustik, ada nama mereka..."
+};
 var currentService="";
 function sendCustom(){
   var t=$("customText").value.trim();
@@ -183,7 +192,7 @@ function sendCustom(){
   window.open(wa("Halo kak, Mau tanya jasa "+currentService+": "+t),"_blank");
 }
 function openDetail(i){
-  var s=SERVICES[i];currentService=s.n;$("customText").value="";$("dTitle").textContent=s.n;$("dDesc").textContent=s.d;$("list").innerHTML="";
+  var s=SERVICES[i];currentService=s.n;$("customText").value="";$("customText").placeholder=PH[s.n]||"Tulis kebutuhanmu di sini...";$("dTitle").textContent=s.n;$("dDesc").textContent=s.d;$("list").innerHTML="";
   s.s.forEach(function(x,k){
     var d=document.createElement("div");d.className="item";d.style.animationDelay=(k*60)+"ms";
     var sp=document.createElement("span");sp.textContent=x;
